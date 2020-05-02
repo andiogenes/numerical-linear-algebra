@@ -66,7 +66,8 @@ def substitute(matrix, terms):
 def determinant(matrix, swap_count):
     """
     Вычисляет определитель матрицы.
-    :param swap_count: Количество перестановок строк.
+    :param matrix: Исходная матрица
+    :param swap_count: Количество перестановок строк
     """
     _determinant = reduce(
         lambda acc, d: acc * d,

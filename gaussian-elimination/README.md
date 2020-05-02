@@ -4,5 +4,3 @@
 * Найти число обусловленности матрицы системы в некоторой, выбранной Вами норме для Ваших тестовых примеров.
 * Отключить в программе процедуру выбора главного элеметна и найти решение системы (предполагается, что вещественные переменные имеют тип float) (vich_mat.pdf, стр. 327)
 * Решить систему (vich_mat.pdf, стр. 327)
-
-![Diagram](https://raw.githubusercontent.com/andiogenes/numerical-linear-algebra/master/GaussianElimination/diagram.png)

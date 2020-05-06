@@ -26,7 +26,7 @@ def eliminate(_matrix, _terms, use_pivot=True):
 
             # Если все элементы в столбце ниже диагонали == 0 => матрица вырожденная
             if is_zero(matrix[max_index][i]):
-                raise Exception('Matrix is degenerate')
+                raise RuntimeError('Matrix is degenerate')
 
         if i != max_index:
             # Перестановка строк
@@ -115,3 +115,39 @@ def inverse_matrix(matrix):
             _inverse_matrix[j][i] = columns[i][j]
 
     return _inverse_matrix
+
+
+def matrix_multiplication(first, second):
+    """
+    Умножает матрицы first и second.
+    """
+    assert len(first) > 0
+    assert len(second) > 0
+
+    result = [[0.0 for _ in range(len(second))] for _ in range(len(first))]
+
+    for i in range(0, len(first)):
+        for j in range(0, len(second[0])):
+            for k in range(0, len(second)):
+                result[i][j] += first[i][k] * second[k][j]
+
+    return result
+
+
+def residual_mm(first, second, expected):
+    """
+    Вычисляет невязку умножения матриц.
+    """
+    assert len(first) > 0
+    assert len(second) > 0
+    assert len(expected) > 0
+
+    got = matrix_multiplication(first, second)
+
+    _residual = [row.copy() for row in expected]
+
+    for i in range(len(got)):
+        for j in range(len(got[0])):
+            _residual[i][j] -= got[i][j]
+
+    return _residual

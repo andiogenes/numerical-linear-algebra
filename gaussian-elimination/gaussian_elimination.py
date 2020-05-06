@@ -37,7 +37,7 @@ def eliminate(_matrix, _terms, use_pivot=True):
         for j in range(i + 1, end):
             # Устранение элементов ниже [i,i]
             c = -matrix[j][i] / matrix[i][i]
-            matrix[j] = [v + matrix[k][i] * c for k, v in enumerate(matrix[j])]
+            matrix[j] = [v + matrix[i][k] * c for k, v in enumerate(matrix[j])]
             terms[j] += terms[i] * c
 
     return matrix, terms, swap_count

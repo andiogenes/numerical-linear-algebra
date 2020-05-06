@@ -60,6 +60,7 @@ def process_elimination(_args):
 
     except RuntimeError as e:
         report = {'error': e}
+        print('Матрица системы вырожденная')
 
     # Сохранение результатов в файл
     with open(_args.dest, 'w') as stream:

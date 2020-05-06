@@ -55,7 +55,7 @@ def substitute(matrix, terms):
         ready_solution = sum(
             map(
                 lambda it: matrix[i][it] * solution[it],
-                range(i + 1, end - 1)
+                range(i + 1, end)
             )
         )
         solution[i] = (terms[i] - ready_solution) / matrix[i][i]

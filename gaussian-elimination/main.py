@@ -1,17 +1,30 @@
-from gaussian_elimination import eliminate, substitute, determinant, residual, inverse_matrix
+import argparse
 
-matrix = [
-    [1, 0, 0],
-    [0, 2, 0],
-    [0, 0, 3]
-]
+import yaml
 
-terms = [1, 1, 1]
 
-eliminated_matrix, eliminated_terms, swap_count = eliminate(matrix, terms)
-solution = substitute(eliminated_matrix, eliminated_terms)
+def process_elimination(_args):
+    # Parse YAML file with input data
+    with open(_args.source, 'r') as stream:
+        try:
+            config = yaml.safe_load(stream)
+        except yaml.YAMLError as e:
+            print(e)
+            return
 
-print(solution)
-print(determinant(eliminated_matrix, swap_count))
-print(residual(eliminated_matrix, terms, solution))
-print(inverse_matrix(matrix))
+
+def parse_command_line():
+    __parser = argparse.ArgumentParser(description='')
+    __parser.add_argument('--source', dest='source', type=str, default='assignment.yml')
+    __parser.set_defaults(func=process_elimination)
+
+    return __parser
+
+
+if __name__ == "__main__":
+    _parser = parse_command_line()
+    args = _parser.parse_args()
+    try:
+        args.func(args)
+    except AttributeError:
+        _parser.parse_args(['--help'])

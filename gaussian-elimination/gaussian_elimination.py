@@ -52,6 +52,10 @@ def substitute(matrix, terms):
 
     solution = [0.0] * end
     for i in reversed(range(0, end)):
+
+        if is_zero(matrix[i][i]):
+            raise RuntimeError('Matrix is degenerate')
+
         ready_solution = sum(
             map(
                 lambda it: matrix[i][it] * solution[it],

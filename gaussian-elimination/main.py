@@ -55,7 +55,7 @@ def process_elimination(_args):
         print('Невязка обратной матрицы:')
         for row in inverse_matrix_residual:
             for element in row:
-                print('{:^10}'.format(element), end='\t')
+                print('{:^20}'.format(element), end='\t')
             print()
 
     except RuntimeError as e:

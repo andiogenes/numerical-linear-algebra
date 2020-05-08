@@ -19,18 +19,21 @@ def process_square_root(_args):
 
     # Вычисление необходимых данных
     solution = srm.solve(matrix, terms)
+    determinant = srm.determinant(matrix)
     residual = srm.residual(matrix, terms, solution)
     inverse = srm.inverse(matrix)
 
     # Отчет для сериализации данных в файл
     report = {
         'solution': solution,
+        'determinant': determinant,
         'residual': residual,
         'inverse': inverse
     }
 
     # Вывод вычисленных данных
     print('Решение: {}'.format(solution))
+    print('Определитель: {}'.format(determinant))
     print('Невязка системы: {}'.format(residual))
 
     print()

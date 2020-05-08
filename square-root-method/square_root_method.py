@@ -1,3 +1,4 @@
+from functools import reduce
 from math import sqrt
 
 from utils import sign
@@ -124,3 +125,22 @@ def residual_mm(first, second, expected):
             _residual[i][j] -= got[i][j]
 
     return _residual
+
+
+def determinant(matrix):
+    """
+    Вычисляет определитель матрицы.
+    """
+
+    s, d = decompose(matrix)
+
+    s_det = reduce(
+        lambda a, x: a * x,
+        map(
+            lambda it: s[it][it],
+            range(0, len(s))
+        ))
+
+    d_det = reduce(lambda a, x: a * x, d)
+
+    return s_det ** 2 * d_det

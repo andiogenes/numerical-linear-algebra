@@ -1,9 +1,12 @@
-# import numpy as np
-#
-#
-# def is_zero(v):
-#     return abs(v) < np.finfo(float).eps
+import numpy as np
 
-# TODO: заменить на рабочий builtin
+
+def is_zero(v):
+    return abs(v) < np.finfo(float).eps
+
+
 def sign(x):
-    return 1.0 if x > 0 else -1.0 if x < 0 else 0.0
+    if is_zero(x):
+        return 0
+
+    return 1 if x > 0 else -1

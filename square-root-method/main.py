@@ -2,6 +2,8 @@ import argparse
 
 import yaml
 
+import square_root_method as srm
+
 
 def process_square_root(_args):
     # Загрузка входных данных из YAML-файла
@@ -11,6 +13,43 @@ def process_square_root(_args):
         except yaml.YAMLError as e:
             print(e)
             return
+
+    matrix = config.get('matrix', [])
+    terms = config.get('terms', [])
+
+    # Вычисление необходимых данных
+    solution = srm.solve(matrix, terms)
+    residual = srm.residual(matrix, terms, solution)
+    inverse = srm.inverse(matrix)
+
+    # Отчет для сериализации данных в файл
+    report = {
+        'solution': solution,
+        'residual': residual,
+        'inverse': inverse
+    }
+
+    # Вывод вычисленных данных
+    print('Решение: {}'.format(solution))
+    print('Невязка системы: {}'.format(residual))
+
+    print()
+
+    print('Обратная матрица:')
+    for row in inverse:
+        for element in row:
+            print('{:^10}'.format(element), end='\t')
+        print()
+    print()
+
+    e = [[1.0 if i == j else 0 for j in range(len(matrix))] for i in range(len(matrix))]
+    inverse_matrix_residual = srm.residual_mm(matrix, inverse, e)
+
+    print('Невязка обратной матрицы:')
+    for row in inverse_matrix_residual:
+        for element in row:
+            print('{:^20}'.format(element), end='\t')
+        print()
 
     # Сохранение результатов в файл
     with open(_args.dest, 'w') as stream:

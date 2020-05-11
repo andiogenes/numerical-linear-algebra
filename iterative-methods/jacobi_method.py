@@ -1,4 +1,7 @@
 def solve_by_jacobi(matrix, terms, eps):
+    """
+    Решает систему методом Якоби с заданной точностью eps.
+    """
     end = len(matrix)
 
     iterations_count = 0
@@ -11,10 +14,9 @@ def solve_by_jacobi(matrix, terms, eps):
         x_k = [compressor(i) + terms[i] / matrix[i][i] for i in range(0, end)]
         iterations_count += 1
 
-        norm = max([(abs(x[i] - v)) for i, v in enumerate(x_k)])
+        norm = max((abs(x[i] - v)) for i, v in enumerate(x_k))
         x = x_k
 
-        # TODO: добавить 1-q/q
         if norm <= eps:
             break
 

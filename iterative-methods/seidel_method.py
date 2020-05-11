@@ -1,4 +1,7 @@
 def solve_by_seidel(matrix, terms, eps):
+    """
+    Решает систему методом Зейделя с заданной точностью eps.
+    """
     end = len(matrix)
 
     iterations_count = 0
@@ -11,7 +14,7 @@ def solve_by_seidel(matrix, terms, eps):
             s2 = sum(matrix[i][j] * x[j] for j in range(i + 1, end))
             x_k[i] = (terms[i] - s1 - s2) / matrix[i][i]
 
-        norm = max([(abs(x[i] - v)) for i, v in enumerate(x_k)])
+        norm = max((abs(x[i] - v)) for i, v in enumerate(x_k))
         x = x_k
 
         iterations_count += 1

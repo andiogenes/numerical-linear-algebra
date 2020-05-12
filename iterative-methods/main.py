@@ -18,11 +18,12 @@ def process_iterative(_args):
 
     matrix = config.get('matrix', [])
     terms = config.get('terms', [])
+    init = config.get('init', [0.0 for _ in range(len(matrix))])
     eps = config.get('eps', 0.1)
 
     # Решение системы методами Якоби и Зейделя
-    jacobi_solution, jacobi_iterations = solve_by_jacobi(matrix, terms, eps)
-    seidel_solution, seidel_iterations = solve_by_seidel(matrix, terms, eps)
+    jacobi_solution, jacobi_iterations = solve_by_jacobi(matrix, terms, eps, init)
+    seidel_solution, seidel_iterations = solve_by_seidel(matrix, terms, eps, init)
 
     # Формирование отчета для записи в файл
     report = {

@@ -1,11 +1,15 @@
-def solve_by_seidel(matrix, terms, eps):
+def solve_by_seidel(matrix, terms, eps, init=None):
     """
     Решает систему методом Зейделя с заданной точностью eps.
     """
     end = len(matrix)
 
     iterations_count = 0
-    x = [0.0] * end
+
+    if init is None:
+        x = [0.0] * end
+    else:
+        x = [v for v in init]
 
     while True:
         x_k = [v for v in x]

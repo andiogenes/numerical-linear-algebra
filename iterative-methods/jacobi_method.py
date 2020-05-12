@@ -1,11 +1,15 @@
-def solve_by_jacobi(matrix, terms, eps):
+def solve_by_jacobi(matrix, terms, eps, init=None):
     """
     Решает систему методом Якоби с заданной точностью eps.
     """
     end = len(matrix)
 
     iterations_count = 0
-    x = [0.0] * end
+
+    if init is None:
+        x = [0.0] * end
+    else:
+        x = [v for v in init]
 
     def compressor(i):
         return -sum(matrix[i][j] / matrix[i][i] * x[j] for j in range(0, end) if i != j)

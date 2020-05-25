@@ -1,6 +1,8 @@
 #lang racket
 
 (require yaml)
+(require math/matrix)
+(require "power-method.rkt")
 
 (define source (make-parameter "assignment.yml"))
 (define dest (make-parameter "destination.yml"))
@@ -17,13 +19,13 @@
 
    #:args () (void)))
 
-(define process-eigenvalues
+(define (process-eigenvalues)
   (let* ([config-get ((curry hash-ref) (with-input-from-file (source) read-yaml))]
-         [matrix (config-get "matrix" '())]
+         [A (list*->matrix (config-get "matrix" '()))]
          [eps (config-get "eps" 0.1)]
          [approx (config-get "approx" 0)]
-         [initial (config-get "init" (λ () (build-list (length matrix) 0)))])
-    (thunk (println matrix))))
+         [initial (config-get "init" (λ () (build-list (length A) 0)))])
+    (power-iteration A eps)))
 
 
-(process-eigenvalues)
+(print (process-eigenvalues))

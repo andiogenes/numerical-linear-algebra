@@ -25,7 +25,10 @@
          [eps (config-get "eps" 0.1)]
          [approx (config-get "approx" 0)]
          [initial (config-get "init" (λ () (build-list (length A) 0)))])
-    (power-iteration A eps)))
+    (power-iteration A initial eps)))
 
 
-(print (process-eigenvalues))
+(let-values ([(l_max b_k iterations) (process-eigenvalues)])
+  (println l_max)
+  (println b_k)
+  (println iterations))

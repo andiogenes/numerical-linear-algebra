@@ -23,7 +23,7 @@
          [eps (config-get "eps" 0.1)]
          [approx (config-get "approx" 0)]
          [initial (config-get "init" (λ () (build-list (length matrix) 0)))])
-    (thunk (print matrix))))
+    (thunk (println matrix))))
 
 
 (process-eigenvalues)

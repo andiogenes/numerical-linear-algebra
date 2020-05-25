@@ -7,9 +7,6 @@
 
 (define parser
   (command-line
-   #:usage-help
-   "Have the computer greet you!"
-
    #:once-each
    [("-s" "--source") SOURCE
     "Path to your assignment file"

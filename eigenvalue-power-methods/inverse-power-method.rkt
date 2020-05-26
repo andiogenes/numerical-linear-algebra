@@ -21,7 +21,7 @@
           (set! x_k+1 (matrix* B x_k))
           (set! x_k (matrix-scale tmp (/ 1 tmp_norm)))
           (set! l_prev l)
-          (set! l (- approx (/ (dot-prod x_k x_k) (dot-prod x_k+1 x_k))))
+          (set! l (+ approx (/ (dot-prod x_k x_k) (dot-prod x_k+1 x_k))))
           (set! iterations (add1 iterations))))
 
         (values l x_k iterations)))

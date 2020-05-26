@@ -29,6 +29,6 @@
 
 
 (let-values ([(l_max b_k iterations) (process-eigenvalues)])
-  (println l_max)
-  (println b_k)
-  (println iterations))
+  (printf "eigenvalue: ~s\n" l_max)
+  (printf "eigenvector: ~v\n" b_k)
+  (printf "iterations: ~s\n" iterations))

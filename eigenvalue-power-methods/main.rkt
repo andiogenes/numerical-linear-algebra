@@ -19,16 +19,20 @@
 
    #:args () (void)))
 
+(define-syntax-rule (print-eigenvalues purpose v) 
+  (let-values ([(l b iterations) v])
+    (printf "~s:\n" purpose)
+    (printf "\teigenvalue: ~s\n" l)
+    (printf "\teigenvector: ~v\n" b)
+    (printf "\titerations: ~s\n" iterations)))
+
 (define (process-eigenvalues)
   (let* ([config-get ((curry hash-ref) (with-input-from-file (source) read-yaml))]
          [A (list*->matrix (config-get "matrix" '()))]
          [eps (config-get "eps" 0.1)]
          [approx (config-get "approx" 0)]
          [initial (config-get "init" (λ () (build-list (length A) 0)))])
-    (power-iteration A initial eps)))
+    (print-eigenvalues "λ_1" (power-iteration A initial eps))
+    (print-eigenvalues "λ_2" (power-iteration-second A initial eps))))
 
-
-(let-values ([(l_max b_k iterations) (process-eigenvalues)])
-  (printf "eigenvalue: ~s\n" l_max)
-  (printf "eigenvector: ~v\n" b_k)
-  (printf "iterations: ~s\n" iterations))
+  (process-eigenvalues)

@@ -21,7 +21,7 @@
 
 (define-syntax-rule (print-eigenvalues purpose v) 
   (let-values ([(l b iterations) v])
-    (printf "~s:\n" purpose)
+    (display (string-append purpose ":\n"))
     (printf "\teigenvalue: ~s\n" l)
     (printf "\teigenvector: ~v\n" b)
     (printf "\titerations: ~s\n" iterations)))
@@ -33,6 +33,6 @@
          [approx (config-get "approx" 0)]
          [initial (config-get "init" (λ () (build-list (length A) 0)))])
     (print-eigenvalues "λ_1" (power-iteration A initial eps))
-    (print-eigenvalues "λ_2" (power-iteration-second A initial eps))))
+    (print-eigenvalues "λ_2" (power-iteration A initial eps))))
 
   (process-eigenvalues)

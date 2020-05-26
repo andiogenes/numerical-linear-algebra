@@ -3,6 +3,7 @@
 (require yaml)
 (require math/matrix)
 (require "power-method.rkt")
+(require "inverse-power-method.rkt")
 
 (define source (make-parameter "assignment.yml"))
 (define dest (make-parameter "destination.yml"))
@@ -33,6 +34,7 @@
          [approx (config-get "approx" 0)]
          [initial (config-get "init" (λ () (build-list (length A) 0)))])
     (print-eigenvalues "λ_1" (power-iteration A initial eps))
-    (print-eigenvalues "λ_2" (power-iteration A initial eps))))
+    (print-eigenvalues "λ_2" (power-iteration A initial eps))
+    (print-eigenvalues "nearest λ" (inverse-power-iteration A initial approx eps))))
 
-  (process-eigenvalues)
+(process-eigenvalues)

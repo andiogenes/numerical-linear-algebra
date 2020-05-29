@@ -2,6 +2,7 @@
 
 (require yaml)
 (require math/matrix)
+(require "applications.rkt")
 (require "power-method.rkt")
 (require "inverse-power-method.rkt")
 
@@ -36,6 +37,8 @@
     (print-eigenvalues "λ_1" (power-iteration A initial eps))
     (print-eigenvalues "λ_2" (power-iteration-second A initial eps))
     (print-eigenvalues "λ_2 (метод исчерпывания)" (power-iteration-exhausting A initial eps))
-    (print-eigenvalues "nearest λ" (inverse-power-iteration A initial approx eps))))
+    (print-eigenvalues "nearest λ" (inverse-power-iteration A initial approx eps))
+    (print-eigenvalues "min λ" (min-eigenvalue A initial eps 10))
+    (print-eigenvalues "max λ" (max-eigenvalue A initial eps 10))))
 
 (process-eigenvalues)

@@ -5,6 +5,7 @@
 
 (provide power-iteration)
 (provide power-iteration-second)
+(provide power-iteration-exhausting)
 
 (define (power-iteration A initial eps)
   (let* ([b_k (->col-matrix initial)]
@@ -49,6 +50,13 @@
         (set! iterations (add1 iterations))))
 
     (values l_max b_k iterations)))
+
+(define (power-iteration-exhausting A initial eps)
+  (let-values ([(l e _) (power-iteration A initial eps)]
+               [(__ g ___) (power-iteration (matrix-transpose A) initial eps)])
+    (let* ([coef (/ l (dot-prod g e))]
+           [B (matrix- A (matrix-scale (matrix* e (matrix-transpose g)) coef))])
+      (power-iteration B initial eps))))
 
 (define-syntax-rule (take-second v)
   (let-values ([(first second third) v])

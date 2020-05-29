@@ -35,6 +35,7 @@
          [initial (config-get "init" (λ () (build-list (length A) 0)))])
     (print-eigenvalues "λ_1" (power-iteration A initial eps))
     (print-eigenvalues "λ_2" (power-iteration-second A initial eps))
+    (print-eigenvalues "λ_2 (метод исчерпывания)" (power-iteration-exhausting A initial eps))
     (print-eigenvalues "nearest λ" (inverse-power-iteration A initial approx eps))))
 
 (process-eigenvalues)

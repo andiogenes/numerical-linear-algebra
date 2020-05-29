@@ -18,8 +18,8 @@
           #:break (< (abs (- l_max l_prev)) eps)
       (let ([tmp b_k+1]
             [tmp_norm (norm b_k+1)])
-        (set! b_k+1 (matrix* A b_k))
         (set! b_k (matrix-scale tmp (/ 1 tmp_norm)))
+        (set! b_k+1 (matrix* A b_k))
         (set! l_prev l_max)
         (set! l_max (/ (dot-prod b_k+1 b_k) (dot-prod b_k b_k)))
         (set! iterations (add1 iterations))))
@@ -42,9 +42,9 @@
           #:break (< (abs (- l_max l_prev)) eps)
       (let ([tmp b_k+1]
             [tmp_norm (norm b_k+1)])
-        (set! b_k+1 (matrix* A b_k))
         (set! b_k (matrix-scale tmp (/ 1 tmp_norm)))
         (set! b_k (matrix- b_k (ortonormalize b_k)))
+        (set! b_k+1 (matrix* A b_k))
         (set! l_prev l_max)
         (set! l_max (/ (dot-prod b_k+1 b_k) (dot-prod b_k b_k)))
         (set! iterations (add1 iterations))))

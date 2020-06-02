@@ -39,7 +39,7 @@ object JacobiRotator {
 
   def compute(matrix: DenseMatrix[Double], eps: Double): (Vector[Double], List[Vector[Double]]) = {
     var a = matrix
-    val d = DenseMatrix.eye[Double](a.rows)
+    var d = DenseMatrix.eye[Double](a.rows)
 
     breakable {
       while (true) {
@@ -51,7 +51,7 @@ object JacobiRotator {
         val b = u.t * c
 
         a = b
-        d *= u
+        d = d * u
 
         if (maxNonDiagonalNaive(a)._2 < eps) break
       }

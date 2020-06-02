@@ -1,4 +1,4 @@
-import breeze.linalg.{DenseMatrix, argmax, diag, max}
+import breeze.linalg.{DenseMatrix, argmax, diag}
 import scala.util.control.Breaks._
 
 object JacobiRotator {
@@ -27,20 +27,14 @@ object JacobiRotator {
         (alpha, beta)
     }
 
-  //noinspection DuplicatedCode
-  private def maxNonDiagonalNaive(matrix: DenseMatrix[Double]): (Int, Int) = {
-    val diagonal = DenseMatrix.eye[Double](matrix.rows)
-    diag(matrix).foreachPair((i, v) => diagonal(i, i) = v)
+  private def maxNonDiagonalNaive(matrix: DenseMatrix[Double]): ((Int, Int), Double) = {
+    val _matrix = matrix.copy.map(v => Math.abs(v))
+    diag(matrix).foreachPair((i, _) => _matrix(i, i) = 0)
 
-    argmax(matrix - diagonal)
-  }
-
-  //noinspection DuplicatedCode
-  private def estimate(matrix: DenseMatrix[Double]): Double = {
-    val diagonal = DenseMatrix.eye[Double](matrix.rows)
-    diag(matrix).foreachPair((i, v) => diagonal(i, i) = v)
-
-    max(matrix - diagonal)
+    argmax(_matrix) match {
+      case (k, v) if k == v => ((0, 1), _matrix(0, 1))
+      case (k, v) => ((k, v), _matrix(k, v))
+    }
   }
 
   def compute(matrix: DenseMatrix[Double], eps: Double): (Vector[Double], List[Vector[Double]]) = {
@@ -49,17 +43,17 @@ object JacobiRotator {
 
     breakable {
       while (true) {
-        val (k, l) = maxNonDiagonalNaive(a)
+        val ((k, l), _) = maxNonDiagonalNaive(a)
         val (alpha, beta) = ab(a, k, l)
         val u = uKL(k, l, alpha, beta, a.rows)
 
         val c = a * u
         val b = u.t * c
 
-        if (estimate(b.map(v => Math.abs(v))) < eps) break
-
         a = b
-        u *= d
+        d *= u
+
+        if (maxNonDiagonalNaive(a)._2 < eps) break
       }
     }
 

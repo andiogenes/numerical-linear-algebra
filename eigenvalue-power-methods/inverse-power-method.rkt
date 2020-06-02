@@ -5,6 +5,7 @@
 
 (provide inverse-power-iteration)
 
+;; Обратный степенной метод
 (define (inverse-power-iteration A initial approx eps)
   (let* ([E (identity-matrix (square-matrix-size A))]
          [B (matrix-inverse (matrix- A (matrix-scale E approx)))]

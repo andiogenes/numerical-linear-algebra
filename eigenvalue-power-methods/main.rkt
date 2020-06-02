@@ -35,12 +35,12 @@
 ;; Обработка исходных данных
 (define (process-eigenvalues)
   (let* ([config-get ((curry hash-ref) (with-input-from-file (source) read-yaml))]
-         [A (list*->matrix (config-get "matrix" '()))]
-         [eps (config-get "eps" 0.1)]
-         [approx (config-get "approx" 0)]
-         [initial (config-get "init" (λ () (build-list (length A) 0)))])
+         [A (list*->matrix (config-get "матрица" '()))]
+         [eps (config-get "точность" 0.1)]
+         [approx (config-get "λ0" 0)]
+         [initial (config-get "начальный_вектор" (λ () (build-list (length A) 0)))])
     (print-eigenvalues "λ1" (power-iteration A initial eps) A)
-    (print-eigenvalues "λ2" (power-iteration-second A initial eps) A)
+    ;;(print-eigenvalues "λ2" (power-iteration-second A initial eps) A)
     (print-eigenvalues "λ2 (метод исчерпывания)" (power-iteration-exhausting A initial eps) A)
     (print-eigenvalues "ближайшее к λ0" (inverse-power-iteration A initial approx eps) A)
     (print-eigenvalues "минимальное λ" (min-eigenvalue A initial eps 10) A)

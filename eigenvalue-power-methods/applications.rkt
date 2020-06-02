@@ -9,11 +9,13 @@
 (provide min-eigenvalue)
 (provide min-absolute-eigenvalue)
 
-(define (max-eigenvalue A initial eps c)
-  (some-eigenvalue A initial eps c matrix+ -))
+(define (max-eigenvalue A initial eps)
+  (let-values ([(l _ __) (power-iteration A initial eps)])
+    (some-eigenvalue A initial eps l matrix+ -)))
 
-(define (min-eigenvalue A initial eps c)
-  (some-eigenvalue A initial eps c matrix- +))
+(define (min-eigenvalue A initial eps)
+  (let-values ([(l _ __) (power-iteration A initial eps)])
+    (some-eigenvalue A initial eps l matrix- +)))
 
 (define (min-absolute-eigenvalue A initial eps)
   (inverse-power-iteration A initial epsilon.0 eps))

@@ -43,8 +43,8 @@
     ;;(print-eigenvalues "λ2" (power-iteration-second A initial eps) A)
     (print-eigenvalues "λ2 (метод исчерпывания)" (power-iteration-exhausting A initial eps) A)
     (print-eigenvalues "ближайшее к λ0" (inverse-power-iteration A initial approx eps) A)
-    (print-eigenvalues "минимальное λ" (min-eigenvalue A initial eps 10) A)
-    (print-eigenvalues "максимальное λ" (max-eigenvalue A initial eps 10) A)
+    (print-eigenvalues "минимальное λ" (min-eigenvalue A initial eps) A)
+    (print-eigenvalues "максимальное λ" (max-eigenvalue A initial eps) A)
     (print-eigenvalues "λk" (min-absolute-eigenvalue A initial eps) A)))
 
 (process-eigenvalues)

@@ -15,6 +15,11 @@ object Entry extends App {
   val source = options(CliParser.Source).toString
   val destination = options(CliParser.Destination).toString
 
+  /**
+   * Загружает YAML-данные из `filename` в формате `Config`
+   * @param filename Относительный путь к файлу
+   * @return Объект с загруженными данными
+   */
   def loadData(filename: String) = {
     val input = new FileInputStream(new File(filename))
     val yaml = new Yaml(new Constructor(classOf[Config]))
@@ -22,6 +27,11 @@ object Entry extends App {
     yaml.load(input).asInstanceOf[Config]
   }
 
+  /**
+   * Преобразует матрицу из списочного представления в эффективно-разреженное
+   * @param matrix Матрица
+   * @return Матрица в новом представлении
+   */
   def convertMatrix(matrix: util.ArrayList[util.ArrayList[Number]]) = {
     val rows = matrix.size()
     val cols = matrix.get(0).size()
@@ -34,9 +44,21 @@ object Entry extends App {
     new DenseMatrix(rows, cols, values)
   }
 
+  /**
+   * Конвертирует вектор в строку в формате (x0, x1, ..., xn)
+   * @param vector Вектор
+   * @return Форматированная строка
+   */
   def formatVector(vector: Vector[Any]): String =
     s"(${vector.tail.foldLeft(vector.head.toString) { (x, y) => s"$x, $y" }})"
 
+  /**
+   * Вычисляет невязку R = Ae - λe
+   * @param matrix Матрица A
+   * @param eigenvalue Собственное число λ
+   * @param eigenvector Собственный вектор e
+   * @return Величина невязки
+   */
   def residual(matrix: DenseMatrix[Double], eigenvalue: Double, eigenvector: Vector[Double]) = {
     val vector = DenseMatrix(eigenvector).t
     (matrix * vector - eigenvalue * vector).valuesIterator.toVector

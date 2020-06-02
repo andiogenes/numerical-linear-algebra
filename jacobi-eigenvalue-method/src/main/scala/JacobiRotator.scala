@@ -2,6 +2,15 @@ import breeze.linalg.{DenseMatrix, argmax, diag}
 import scala.util.control.Breaks._
 
 object JacobiRotator {
+  /**
+   * Построение матрицы Ukl
+   * @param k k-я кооридната
+   * @param l l-я координата
+   * @param a Число α
+   * @param b Число β
+   * @param size Размерность матрицы
+   * @return Ukl
+   */
   private def uKL(k: Int, l: Int, a: Double, b: Double, size: Int): DenseMatrix[Double] = {
     val u = DenseMatrix.eye[Double](size)
 
@@ -13,6 +22,13 @@ object JacobiRotator {
     u
   }
 
+  /**
+   * Вычисление α и β
+   * @param matrix Матрица
+   * @param k k-я координата
+   * @param l l-я координата
+   * @return α и β
+   */
   private def ab(matrix: DenseMatrix[Double], k: Int, l: Int): (Double, Double) =
     (matrix(k, k), matrix(l, l)) match {
       case (akk, all) if Math.abs(akk - all) < Double.MinPositiveValue =>
@@ -27,6 +43,11 @@ object JacobiRotator {
         (alpha, beta)
     }
 
+  /**
+   * Поиск максимального недиагонального элемента матрицы
+   * @param matrix Матрица
+   * @return ((x,y), m), где x, y - строка и столбец, m - модуль максимального недиагонального элемента
+   */
   private def maxNonDiagonalNaive(matrix: DenseMatrix[Double]): ((Int, Int), Double) = {
     val _matrix = matrix.copy.map(v => Math.abs(v))
     diag(matrix).foreachPair((i, _) => _matrix(i, i) = 0)
@@ -37,6 +58,12 @@ object JacobiRotator {
     }
   }
 
+  /**
+   * Вычисление собственных чисел и собственных векторов матрицы
+   * @param matrix Матрица
+   * @param eps Точность вычислений
+   * @return (val, vec), где val - вектор собственных чисел, vec - список собственных векторов
+   */
   def compute(matrix: DenseMatrix[Double], eps: Double): (Vector[Double], List[Vector[Double]]) = {
     var a = matrix
     var d = DenseMatrix.eye[Double](a.rows)

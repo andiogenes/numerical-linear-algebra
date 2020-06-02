@@ -2,6 +2,7 @@
 
 (require yaml)
 (require math/matrix)
+(require "math.rkt")
 (require "applications.rkt")
 (require "power-method.rkt")
 (require "inverse-power-method.rkt")
@@ -23,12 +24,13 @@
    #:args () (void)))
 
 ;; Печать информации о собственных числах
-(define-syntax-rule (print-eigenvalues purpose v) 
+(define-syntax-rule (print-eigenvalues purpose v A) 
   (let-values ([(l b iterations) v])
     (display (string-append purpose ":\n"))
-    (printf "\teigenvalue: ~s\n" l)
-    (printf "\teigenvector: ~v\n" b)
-    (printf "\titerations: ~s\n" iterations)))
+    (printf "\tсобственное число: ~s\n" l)
+    (printf "\tсобственный вектор: ~v\n" b)
+    (printf "\tколичество итераций: ~s\n" iterations)
+    (printf "\tневязка: ~s\n" (residual A l b))))
 
 ;; Обработка исходных данных
 (define (process-eigenvalues)
@@ -37,12 +39,12 @@
          [eps (config-get "eps" 0.1)]
          [approx (config-get "approx" 0)]
          [initial (config-get "init" (λ () (build-list (length A) 0)))])
-    (print-eigenvalues "λ1" (power-iteration A initial eps))
-    (print-eigenvalues "λ2" (power-iteration-second A initial eps))
-    (print-eigenvalues "λ2 (метод исчерпывания)" (power-iteration-exhausting A initial eps))
-    (print-eigenvalues "ближайшее к λ0" (inverse-power-iteration A initial approx eps))
-    (print-eigenvalues "минимальное λ" (min-eigenvalue A initial eps 10))
-    (print-eigenvalues "максимальное λ" (max-eigenvalue A initial eps 10))
-    (print-eigenvalues "λk" (min-absolute-eigenvalue A initial eps))))
+    (print-eigenvalues "λ1" (power-iteration A initial eps) A)
+    (print-eigenvalues "λ2" (power-iteration-second A initial eps) A)
+    (print-eigenvalues "λ2 (метод исчерпывания)" (power-iteration-exhausting A initial eps) A)
+    (print-eigenvalues "ближайшее к λ0" (inverse-power-iteration A initial approx eps) A)
+    (print-eigenvalues "минимальное λ" (min-eigenvalue A initial eps 10) A)
+    (print-eigenvalues "максимальное λ" (max-eigenvalue A initial eps 10) A)
+    (print-eigenvalues "λk" (min-absolute-eigenvalue A initial eps) A)))
 
 (process-eigenvalues)

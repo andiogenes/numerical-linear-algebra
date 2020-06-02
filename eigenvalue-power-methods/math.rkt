@@ -15,3 +15,6 @@
 
 ;; Скалярное произведение векторов
 (define (dot-prod l r) (array-all-sum (matrix-map * l r)))
+
+(define (residual A l e)
+  (matrix- (matrix* A e) (matrix-scale e l)))

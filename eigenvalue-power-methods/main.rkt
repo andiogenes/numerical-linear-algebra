@@ -9,6 +9,7 @@
 (define source (make-parameter "assignment.yml"))
 (define dest (make-parameter "destination.yml"))
 
+;; Разбор аргументов командной строки
 (define parser
   (command-line
    #:once-each
@@ -21,6 +22,7 @@
 
    #:args () (void)))
 
+;; Печать информации о собственных числах
 (define-syntax-rule (print-eigenvalues purpose v) 
   (let-values ([(l b iterations) v])
     (display (string-append purpose ":\n"))
@@ -28,6 +30,7 @@
     (printf "\teigenvector: ~v\n" b)
     (printf "\titerations: ~s\n" iterations)))
 
+;; Обработка исходных данных
 (define (process-eigenvalues)
   (let* ([config-get ((curry hash-ref) (with-input-from-file (source) read-yaml))]
          [A (list*->matrix (config-get "matrix" '()))]

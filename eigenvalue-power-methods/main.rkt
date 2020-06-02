@@ -34,12 +34,12 @@
          [eps (config-get "eps" 0.1)]
          [approx (config-get "approx" 0)]
          [initial (config-get "init" (λ () (build-list (length A) 0)))])
-    (print-eigenvalues "λ_1" (power-iteration A initial eps))
-    (print-eigenvalues "λ_2" (power-iteration-second A initial eps))
-    (print-eigenvalues "λ_2 (метод исчерпывания)" (power-iteration-exhausting A initial eps))
-    (print-eigenvalues "nearest λ" (inverse-power-iteration A initial approx eps))
-    (print-eigenvalues "min λ" (min-eigenvalue A initial eps 10))
-    (print-eigenvalues "max λ" (max-eigenvalue A initial eps 10))
-    (print-eigenvalues "λ_k" (min-absolute-eigenvalue A initial eps))))
+    (print-eigenvalues "λ1" (power-iteration A initial eps))
+    (print-eigenvalues "λ2" (power-iteration-second A initial eps))
+    (print-eigenvalues "λ2 (метод исчерпывания)" (power-iteration-exhausting A initial eps))
+    (print-eigenvalues "ближайшее к λ0" (inverse-power-iteration A initial approx eps))
+    (print-eigenvalues "минимальное λ" (min-eigenvalue A initial eps 10))
+    (print-eigenvalues "максимальное λ" (max-eigenvalue A initial eps 10))
+    (print-eigenvalues "λk" (min-absolute-eigenvalue A initial eps))))
 
 (process-eigenvalues)

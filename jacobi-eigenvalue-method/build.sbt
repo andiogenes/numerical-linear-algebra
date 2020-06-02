@@ -20,3 +20,5 @@ libraryDependencies  ++= Seq(
   // It depends on LGPL code
   "org.scalanlp" %% "breeze-viz" % "1.0"
 )
+
+libraryDependencies += "com.jakewharton.fliptables" % "fliptables" % "1.1.0"

@@ -3,6 +3,7 @@ import java.io.{File, FileInputStream}
 import java.util
 
 import breeze.linalg.DenseMatrix
+import com.jakewharton.fliptables.FlipTable
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.Constructor
 
@@ -33,6 +34,15 @@ object Entry extends App {
     new DenseMatrix(rows, cols, values)
   }
 
+  def formatVector(vector: Vector[Any]): String =
+    s"(${vector.tail.foldLeft(vector.head.toString) { (x, y) => s"$x, $y" }})"
+
+  def residual(matrix: DenseMatrix[Double], eigenvalue: Double, eigenvector: Vector[Double]) = {
+    val vector = DenseMatrix(eigenvector).t
+    (matrix * vector - eigenvalue * vector).valuesIterator.toVector
+  }
+
+
   val config = loadData(source)
 
   val matrix = convertMatrix(config.matrix)
@@ -40,8 +50,13 @@ object Entry extends App {
 
   val (eigenvalues, eigenvectors) = JacobiRotator.compute(matrix, eps)
 
-  println(eigenvalues)
-  println(eigenvectors)
+  val headers = Array("Eigenvalue", "Eigenvector", "Residual")
+  val data = eigenvalues
+    .zip(eigenvectors)
+    .map(v => Array(v._1.toString, formatVector(v._2), formatVector(residual(matrix, v._1, v._2))))
+    .toArray
+
+  println(FlipTable.of(headers, data))
 }
 
 class Config {
